@@ -2,6 +2,9 @@ import java.util.Arrays;
 import java.util.Random;
 public class AlgorithmTest {
     private static final Random random = new Random(12345);
+    public static void main(String[] args) {
+        runAllTests();
+    }
     public static void runAllTests() {
         testSorting();
         testSelect();
@@ -32,13 +35,13 @@ public class AlgorithmTest {
         for (int[] a : cases) {
             int[] expected = a.clone();
             Arrays.sort(expected);
-            int[] m = a.clone();
-            int[] q = a.clone();
-            MergeSorter.sort(m, new Metrics());
-            QuickSorter.sort(q, new Metrics());
-            if (!Arrays.equals(m, expected))
+            int[] merge = a.clone();
+            int[] quick = a.clone();
+            MergeSorter.sort(merge, new Metrics());
+            QuickSorter.sort(quick, new Metrics());
+            if (!Arrays.equals(merge, expected))
                 throw new RuntimeException("MergeSort edge case failed");
-            if (!Arrays.equals(q, expected))
+            if (!Arrays.equals(quick, expected))
                 throw new RuntimeException("QuickSort edge case failed");
         }
     }
@@ -56,7 +59,8 @@ public class AlgorithmTest {
         int[] sorted = a.clone();
         Arrays.sort(sorted);
         for (int k = 0; k < a.length; k++) {
-            int result = DeterministicSelector.select(a.clone(), k, new Metrics());
+            int result = DeterministicSelector.select(a.clone(), k,
+                    new Metrics());
             if (result != sorted[k])
                 throw new RuntimeException("Select duplicate test failed");
         }
@@ -101,7 +105,10 @@ public class AlgorithmTest {
     private static Point[] randomPoints(int n) {
         Point[] points = new Point[n];
         for (int i = 0; i < n; i++) {
-            points[i] = new Point(random.nextDouble() * 1000, random.nextDouble() * 1000);
+            points[i] = new Point(
+                    random.nextDouble() * 1000,
+                    random.nextDouble() * 1000
+            );
         }
         return points;
     }
