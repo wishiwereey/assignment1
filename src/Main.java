@@ -1,9 +1,7 @@
-import java.awt.*;
 import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
-        AlgorithmTest.runAllTests();
-        System.out.println("\n--- Small demo ---");
+        System.out.println("--- Small demo ---");
         int[] a = {7, 2, 9, 2, 1, 8, 5, 3};
         int[] mergeArray = a.clone();
         Metrics mergeMetrics = new Metrics();
