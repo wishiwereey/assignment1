@@ -259,8 +259,6 @@ Some practical factors are:
 This is why some measured times can go down even when the input size increases.
 For example, MergeSort on random input took `1,163,800 ns` for `n = 5000` and `1,019,200 ns` for `n = 10000` in this experiment. This does not mean that the larger input has better asymptotic complexity. It is normal variation in experimental timing.
 
----
-
 ### E. Reflection
 
 This assignment helped me understand divide-and-conquer algorithms better because I had to implement them instead of only working with their formulas. One thing I noticed was that small implementation choices can make a visible difference. For example, skipping an unnecessary merge helped MergeSort on sorted arrays, and 3-way partitioning helped a lot when QuickSort had many duplicate values.
@@ -272,13 +270,13 @@ The most difficult parts for me were Median-of-Medians and Closest Pair. Median-
 
 ![Program Output](docs/screenshots/execution.png)
 
-### Test Results
-
-![Test Results](docs/screenshots/test_results.png)
-
 ### Experimental Results
 
 ![Experimental Results](docs/screenshots/results_csv.png)
+
+### Project Structure
+
+![Project Structure](docs/screenshots/project_structure.png)
 
 ### Plots
 
