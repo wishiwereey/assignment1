@@ -15,7 +15,7 @@ MergeSort divides the array into two halves, sorts them recursively, and merges 
 - Time: Θ(n log n)
 - Extra space: O(n)
 - Recursion depth: O(log n)
-- 
+
 ### QuickSort
 QuickSort chooses a random pivot and uses 3-way partitioning to separate elements into "< pivot", "= pivot", and "> pivot". This works well with duplicate values. The smaller partition is processed recursively, while the larger one is handled with a loop to reduce recursion depth.
 - Recurrence: T(n) = T(k) + T(n-k-1) + Θ(n)
