@@ -39,6 +39,7 @@ I tested all algorithms with input sizes from 100 to 10000. MergeSort and QuickS
 I measured execution time with System.nanoTime(), recursion depth, comparisons, and swaps. The median execution times were saved to results/results.csv.
 
 ### Random Input Results
+
 | Algorithm | n | Time (ns) | Max Depth | Comparisons |
 |---|---:|---:|---:|---:|
 | MergeSort | 100 | 74,500 | 4 | 663 |
