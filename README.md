@@ -6,57 +6,33 @@ I implemented four algorithms:
 - Deterministic Select (Median-of-Medians)
 - Closest Pair of Points
 
-The program also collects several metrics during execution: running time, maximum recursion depth, number of comparisons, and number of swaps. The experimental results are saved in `results/results.csv`.
+The program also collects several metrics during execution: running time, maximum recursion depth, number of comparisons, and number of swaps. The experimental results are saved in results/results.csv.
 
 ### B.Algorithm Analysis
 ### MergeSort
-MergeSort divides the array into two halves, recursively sorts both halves, and then merges them back together.
-I used one reusable auxiliary array instead of creating a new array for every merge. For small subarrays, insertion sort is used with a cutoff of 15 elements.
-There is also a check before merging. If the last element of the left half is already smaller than or equal to the first element of the right half, the merge can be skipped.
-- The recurrence is: nT(n) = 2T(n/2) + Θ(n)
-- Using the Master Theorem: T(n) = Θ(n log n)
-- Time complexity: Θ(n log n) 
+MergeSort divides the array into two halves, sorts them recursively, and merges them back together. I used one reusable auxiliary array and insertion sort for small subarrays with a cutoff of 15. The merge is skipped if the two halves are already ordered.
+- Recurrence: T(n) = 2T(n/2) + Θ(n)
+- Time: Θ(n log n)
 - Extra space: O(n)
 - Recursion depth: O(log n)
-
+- 
 ### QuickSort
-QuickSort chooses a random pivot and partitions the array around it.
-My implementation uses 3-way partitioning:
-- elements < pivot
-- elements = pivot
-- elements > pivot
-
-This is useful when the array contains many duplicate values.
-The algorithm recursively processes the smaller partition and handles the larger partition with a loop. This reduces the recursion stack size.
-For a partition of size k, the recurrence can be written as: T(n) = T(k) + T(n-k-1) + Θ(n)
-
-With reasonably balanced partitions, the expected complexity is: O(n log n)
-
-The worst case is: O(n²)
-
-The typical recursion depth is O(log n) because the smaller partition is processed recursively.
+QuickSort chooses a random pivot and uses 3-way partitioning to separate elements into "< pivot", "= pivot", and "> pivot". This works well with duplicate values. The smaller partition is processed recursively, while the larger one is handled with a loop to reduce recursion depth.
+- Recurrence: T(n) = T(k) + T(n-k-1) + Θ(n)
+- Average time: O(n log n)
+- Worst case: O(n²)
+- Typical recursion depth: O(log n)
 
 ### Deterministic Select
-Deterministic Select finds the element at position k without sorting the entire array.
-The array is divided into groups of five. Each group is sorted and its median is found. The median of these medians is then used as the pivot.
-After partitioning, the algorithm continues only in the partition that contains the required index k.
-I also used 3-way partitioning so duplicate values can be handled efficiently.
-The recurrence is approximately: T(n) <= T(n/5) + T(7n/10) + Θ(n)
-
-The two recursive parts are small enough that the total work remains linear: T(n) = Θ(n)
-
-Time complexity: Θ(n) in the worst case.
+Deterministic Select finds the element at position k without sorting the whole array. It divides the array into groups of five and uses the median of medians as the pivot. After partitioning, it continues only in the part containing k. 3-way partitioning is also used to handle duplicates.
+- Recurrence: T(n) ≤ T(n/5) + T(7n/10) + Θ(n)
+- Worst-case time: Θ(n)
 
 ### Closest Pair of Points
-The Closest Pair algorithm finds the minimum distance between any two points.
-First, the points are sorted by their coordinates. The set is divided into left and right halves, and the closest distance is found recursively in both halves.
-After that, a strip is created around the middle line. Only points inside this strip that can improve the current minimum distance need to be checked.
-
-The recurrence is: T(n) = 2T(n/2) + Θ(n)
-
-Using the Master Theorem: T(n) = Θ(n log n)
-
-The brute-force solution takes Θ(n²) because it checks every pair of points. The divide-and-conquer version avoids most of these comparisons.
+The Closest Pair algorithm finds the minimum distance between two points. It divides the points into two halves, solves both recursively, and then checks only the necessary points in a strip around the middle line.
+- Recurrence: T(n) = 2T(n/2) + Θ(n)
+- Time: Θ(n log n)
+- Brute-force time: Θ(n²)
 
 ### Experimental Results
 I tested all algorithms with input sizes from 100 to 10000. MergeSort and QuickSort were tested on random, sorted, reverse-sorted, and duplicate-heavy arrays. Deterministic Select used random, sorted, and duplicate-heavy inputs, while Closest Pair used random points.
@@ -120,10 +96,8 @@ The duplicate-heavy input required much fewer comparisons than random input beca
 ### Execution Time vs. n
 ![Execution Time](docs/plots/time_vs_n.png)
 
-The execution-time plot shows the general growth of the algorithms as the input size increases.
-MergeSort and QuickSort had similar running times for the largest random input. Deterministic Select was faster because it does not need to completely sort the array.
-Closest Pair had the highest measured execution time. The implementation works with `Point` objects and creates temporary arrays during the recursive process, which adds some practical overhead.
-The timings are not perfectly smooth. For example, some smaller runs can take longer than expected. Java timing can be affected by JVM warm-up, JIT compilation, garbage collection, CPU scheduling, and other programs running at the same time.
+The execution-time plot shows that running time generally increases with input size. MergeSort and QuickSort had similar results on large random inputs, while Deterministic Select was faster because it only searches for one element.
+Closest Pair had the highest execution time because it works with points and temporary arrays. The timings are not always smooth because Java performance can be affected by the JVM, JIT compilation, garbage collection, and other system processes.
 
 ### Recursion Depth vs. n
 ![Recursion Depth](docs/plots/depth_vs_n.png)
@@ -161,8 +135,8 @@ Brute force checks every pair, giving Θ(n²). Divide-and-conquer splits the poi
 Actual execution time can vary because of JVM warm-up, JIT compilation, garbage collection, CPU cache, and other running programs. Because of this, measured times do not always increase smoothly with input size.
 
 ### E.Reflection
-The most difficult part of this assignment for me was implementing the algorithms while also keeping track of recursion depth and other metrics. QuickSort required extra attention because I had to use a randomized pivot and recurse only on the smaller partition. Closest Pair was also challenging because the points had to stay correctly ordered during the recursive steps.
-The experiments helped me see the difference between theoretical complexity and actual execution time. The general growth of the algorithms matched the theory, but the measured times were not always perfectly smooth. I also saw that input structure can have a noticeable effect on performance, especially for sorted and duplicate-heavy inputs.
+The most difficult parts were managing recursion depth and implementing QuickSort and Closest Pair correctly. QuickSort required smaller-first recursion, while Closest Pair required keeping the points correctly ordered.
+The experiments helped me to understand that input structure can affect execution time, especially for sorted and duplicate-heavy data.
 
 ### F.Screenshots
 ### Program Output and 
